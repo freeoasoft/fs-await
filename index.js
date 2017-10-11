@@ -1,30 +1,22 @@
-let fs = require('fs');
-
-let slice = Array.prototype.slice;
-
-
-(function () {
-
-    let names = 'access,exists,readFile,close,read,write,rename,truncate,ftruncate,rmdir,fdatasync,fsync,mkdir,readdir,fstat,lstat,stat,readlink,link,unlink,fchmod,chmod,fchown,chown,utimes,futimes,writeFile,appendFile,realpath,mkdtemp,copyFile'.split(',');
-
-    for (var i = 0, l = names.length; i < l; i++)
-    {
-        let name = names[i];
-        exports[name] = compile_fn(fs[name]);
-    }
-
-})();
+const fs = require('fs');
+const names = 'access,appendFile,chmod,chown,close,copyFile,exists,fchmod,fchown,fdatasync,fstat,fsync,ftruncate,futimes,link,lstat,mkdir,mkdtemp,read,readFile,readdir,readlink,realpath,rename,rmdir,stat,truncate,unlink,utimes,write,writeFile'.split(',');
 
 
-function compile_fn(fn) {
+for (let i = 0, l = names.length; i < l; i++)
+{
+    compile_fn.call(fs, names[i]);
+}
 
-    return function () {
+
+function compile_fn(name) {
+
+    exports[name] = (...args) => {
         
-        var args = slice.call(arguments, 0);
+        let fs = this;
 
         return new Promise((resolve, reject) => {
             
-            args.push((err, data) => {
+            fs[name](...args, (err, data) => {
                 
                 if (err)
                 {
@@ -33,8 +25,6 @@ function compile_fn(fn) {
 
                 resolve(data);
             });
-
-            fn.apply(fs, args);
         });
     };
 };
@@ -46,7 +36,7 @@ function compile_fn(fn) {
 //     let keys = Object.getOwnPropertyNames(fs);
 //     let list = [];
 
-//     for (var i = 0, l = keys.length; i < l; i++)
+//     for (let i = 0, l = keys.length; i < l; i++)
 //     {
 //         let key = keys[i];
 //         let fn = fs[key];
