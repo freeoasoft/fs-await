@@ -1,0 +1,24 @@
+{
+  "name": "fs-await",
+  "version": "1.0.2",
+  "description": "async await nodejs fs wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeoasoft/fs-await.git"
+  },
+  "keywords": [
+    "async",
+    "await",
+    "fs"
+  ],
+  "author": "yaozhengyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freeoasoft/fs-await/issues"
+  },
+  "homepage": "https://github.com/freeoasoft/fs-await#readme"
+}
